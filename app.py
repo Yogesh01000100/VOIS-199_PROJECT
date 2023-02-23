@@ -24,3 +24,8 @@ def index():
 
 if __name__ == '__main__':
     app.run(debug=True, port=8000)
+
+
+#$ git add .
+#$ git commit -am "make it better"
+#$ git push heroku master    
