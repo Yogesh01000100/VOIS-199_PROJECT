@@ -1,8 +1,14 @@
+# Use the official Python image as the base image
 FROM python:3.10.6
 
+# Set the working directory in the container
 WORKDIR /app
-COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
-COPY . .
-CMD flask run --host 0.0.0.0
 
+# Copy the application files into the working directory
+COPY . /app
+
+# Install the application dependencies
+RUN pip install -r requirements.txt
+
+# Define the entry point for the container
+CMD ["flask", "run", "--host=0.0.0.0"]
