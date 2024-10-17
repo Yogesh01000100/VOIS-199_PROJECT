@@ -2,95 +2,74 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="shortcut icon" href="static/img/logo-w.png" />
-    <title>SPAM Detector Website</title>
+    <title>Spam Detector</title>
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/logo-w.png') }}" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
 <body>
-    <div class="container">
-        <div class="show-result">
-            <h1 class="op">Spam Detector</h1>
+
+    <div class="container my-5">
+
+        <div class="text-center mb-5">
+            <h1 class="display-4">Spam Detector</h1>
+            <p class="lead">Check your messages for spam content</p>
         </div>
-        <div class="logo-heading">
-            <img src="{{url_for('static', filename='img/op.gif')}}" alt="Spam Detector">
-        </div>
-        <div class="container-data">
-            <div class="d-flex flex-row justify-content-center boxer">
-                <p class="op-1">E-mail Check</p>
-                <form action="/" method="post">
-                    <textarea class="text-box" id="sentence" 
-                    name="message"
-                        placeholder="Check for spam mail. Example: Upto 30% off on sale. Buy now!"
-                        onsubmit="return checkforblank()"></textarea>
-                    <button type="submit" class="btn">CHECK</button>
-                </form>
-            </div>  
-         
-            <div class="d-flex flex-row justify-content-center boxer">
-                <p class="op-1">WhatsApp Check</p> 
-                <form action="/" method="post">
-                    <textarea class="text-box" id="sentence" 
-                    name="message"
-                        placeholder="Check for spam whatsApp messages"
-                        onsubmit="return checkforblank()"></textarea>
-                    <button type="submit" class="btn">CHECK</button>
-                </form>
-            </div>
-                
+
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow h-100">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Enter Message Here</h5>
+                        <form action="/" method="post">
+                            <div class="mb-3">
+                                <textarea class="form-control" id="messageInput" name="message" rows="5" placeholder="Enter message here..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-25">Check</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-        
-        <br>
+
         {% if message %}
-        <div class="show-result">
-            <div class="output">
-                <h3
-                    style="color:black; font-size:22px; font-weight:bold; font-family:'Courier New', Courier, monospace; text-transform: uppercase;">
-                    {{message}}</h3>
-            </div>
-            <br>
-            {% if result=='This Message is Not a SPAM Message.' %}
-            <div class="output-logo">
-                <img src="{{url_for('static', filename='img/spam-2.png')}}">
-            </div>
-            {% endif %}
-            {% if result=='This Message is Not a SPAM Message.' %}
-            <div class="alert">
-                <audio controls autoplay>
-                    <source src="{{url_for('static', filename='audio/safe.mpeg')}}" type="audio/mp3">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+                <div class="alert alert-{{ 'success' if result == 'This Message is Not a SPAM Message.' else 'danger' }} text-center" role="alert">
+                    <h4 class="alert-heading">{{ result }}</h4>
+                    <p class="mb-0">{{ message }}</p>
+                </div>
+
+                {% if result == 'This Message is a SPAM Message.' %}
+                <audio autoplay>
+                    <source src="{{ url_for('static', filename='audio/warning.mpeg') }}" type="audio/mpeg">
                 </audio>
-            </div>
-            {% endif %}
-            {% if result=='This Message is a SPAM Message.' %}
-            <div class="output-logo">
-                <img src="{{url_for('static', filename='img/spam.png')}}">
-            </div>
-            {% endif %}
-            {% if result=='This Message is Not a SPAM Message.' %}
-            <div class="output-not">{{result}}</div>
-            {% endif %}
-            {% if result=='This Message is a SPAM Message.' %}
-            <div class="output">{{result}}</div>
-            {% endif %}
-            {% if result=='This Message is a SPAM Message.' %}
-            <div class="alert">
-                <audio controls autoplay>
-                    <source src="{{url_for('static', filename='audio/warning.mpeg')}}" type="audio/mp3">
+                {% elif result == 'This Message is Not a SPAM Message.' %}
+                <audio autoplay>
+                    <source src="{{ url_for('static', filename='audio/safe.mpeg') }}" type="audio/mpeg">
                 </audio>
+                {% endif %}
             </div>
-            {% endif %}
         </div>
         {% else %}
-        <h3
-            style="color:black; padding:30px;font-size:35px; font-weight:bold; font-family:'Courier New', Courier, monospace; text-transform: uppercase;">
-            VOIS PROJECT TEAM-199</h3>
+        <div class="text-center mt-5">
+            <h3>VOIS PROJECT TEAM-199</h3>
+        </div>
         {% endif %}
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>
